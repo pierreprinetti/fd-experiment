@@ -1,28 +1,31 @@
-failureDomains:
-  openstack:
-  - computeAvailabilityZone: nova-1
-    storageAvailabilityZone: cinder-1
-    ports:
-    - fixedIPs:
-      - subnet:
-          name: cluster-foo-control-plane-subnet-b
-      description: Control Plane
-      securityGroups:
-      - aaaa-bbbb-...
-      tags:
-      - control-plane
-    - fixedIPs:
-      - subnet:
-          name: cluster-foo-storage-subnet-b
-      description: Storage
-      securityGroups:
-      - cccc-dddd-...
-      tags:
-      - storage
-spec:
-  providerSpec:
-    openstack:
-      flavor: flavor-A
-      rootVolume:
-        size: 1000
-        type: volume-type-A
+template:
+  machineType: machines_v1beta1_machine_openshift_io
+  machines_v1beta1_machine_openshift_io:
+    failureDomains:
+      openstack:
+      - computeAvailabilityZone: nova-1
+        storageAvailabilityZone: cinder-1
+        ports:
+        - fixedIPs:
+          - subnet:
+              name: cluster-foo-control-plane-subnet-b
+          description: Control Plane
+          securityGroups:
+          - aaaa-bbbb-...
+          tags:
+          - control-plane
+        - fixedIPs:
+          - subnet:
+              name: cluster-foo-storage-subnet-b
+          description: Storage
+          securityGroups:
+          - cccc-dddd-...
+          tags:
+          - storage
+    spec:
+      providerSpec:
+        openstack:
+          flavor: flavor-A
+          rootVolume:
+            size: 1000
+            type: volume-type-A

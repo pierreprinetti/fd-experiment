@@ -1,15 +1,18 @@
-failureDomains:
-  openstack:
-  - computeAvailabilityZone: nova-1
-    storageAvailabilityZone: cinder-1
-  - computeAvailabilityZone: nova-2
-    storageAvailabilityZone: cinder-2
-  - computeAvailabilityZone: nova-3
-    storageAvailabilityZone: cinder-3
-spec:
-  providerSpec:
-    openstack:
-      flavor: flavor-A
-      rootVolume:
-        size: 1000
-        type: volume-type-A
+template:
+  machineType: machines_v1beta1_machine_openshift_io
+  machines_v1beta1_machine_openshift_io:
+    failureDomains:
+      openstack:
+      - computeAvailabilityZone: nova-1
+        storageAvailabilityZone: cinder-1
+      - computeAvailabilityZone: nova-2
+        storageAvailabilityZone: cinder-2
+      - computeAvailabilityZone: nova-3
+        storageAvailabilityZone: cinder-3
+    spec:
+      providerSpec:
+        openstack:
+          flavor: flavor-A
+          rootVolume:
+            size: 1000
+            type: volume-type-A
