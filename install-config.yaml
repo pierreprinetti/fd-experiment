@@ -1,0 +1,87 @@
+apiVersion: v1
+baseDomain: ${BASE_DOMAIN}
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    openstack:
+      type: ${COMPUTE_FLAVOR}
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    openstack:
+      type: ${CONTROL_PLANE_FLAVOR}
+      ports:
+      - targetID: control-plane
+        securityGroups:
+        - aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+        tags:
+        - control-plane
+      - targetID: storage
+        securityGroups:
+        - bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb
+        tags:
+        - storage
+      failureDomains:
+      - computeAvailabilityZone: nova-A
+        storageAvailabilityZone: cinder-A
+        portTargets:
+        - id: control-plane
+          fixedIPs:
+          - subnet:
+              name: cluster-foo-control-plane-subnet-A
+        - id: storage
+          fixedIPs:
+          - subnet:
+              name: cluster-foo-storage-subnet-A
+      - computeAvailabilityZone: nova-B
+        storageAvailabilityZone: cinder-B
+        portTargets:
+        - id: control-plane
+          fixedIPs:
+          - subnet:
+              name: cluster-foo-control-plane-subnet-B
+        - id: storage
+          fixedIPs:
+          - subnet:
+              name: cluster-foo-storage-subnet-B
+      - computeAvailabilityZone: nova-C
+        storageAvailabilityZone: cinder-C
+        portTargets:
+        - id: control-plane
+          fixedIPs:
+          - subnet:
+              name: cluster-foo-control-plane-subnet-C
+        - id: storage
+          fixedIPs:
+          - subnet:
+              name: cluster-foo-storage-subnet-C
+  replicas: 3
+metadata:
+  name: ${CLUSTER_NAME}
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.128.0/17
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  openstack:
+    apiFloatingIP: ${API_IP}
+    ingressFloatingIP: ${INGRESS_IP}
+    apiVIP: 10.0.128.5
+    cloud: ${OS_CLOUD}
+    externalNetwork: ${EXTERNAL_NETWORK}
+    ingressVIP: 10.0.128.7
+publish: External
+pullSecret: |
+  ${PULL_SECRET}
+sshKey: |
+  ${SSH_PUB_KEY}
