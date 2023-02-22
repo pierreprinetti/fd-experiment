@@ -1,0 +1,26 @@
+spec:
+  providerSpec:
+    openstack:
+      flavor: flavor-A
+      zone: nova-1
+      rootVolume:
+        size: 1000
+        type: volume-type-A
+        zone: cinder-1
+      ports:
+      - fixedIPs:
+        - subnet:
+            name: cluster-foo-control-plane-subnet-1
+        description: Control Plane
+        securityGroups:
+        - aaaa-bbbb-...
+        tags:
+        - control-plane
+      - fixedIPs:
+        - subnet:
+            name: cluster-foo-storage-subnet-1
+        description: Storage
+        securityGroups:
+        - cccc-dddd-...
+        tags:
+        - storage
