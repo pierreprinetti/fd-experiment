@@ -1,0 +1,33 @@
+failureDomains:
+  openstack:
+  - computeAvailabilityZone: nova-1
+    storageAvailabilityZone: cinder-1
+    ports:
+    - id: control-plane
+      fixedIPs:
+      - subnet:
+          name: cluster-foo-control-plane-subnet-b
+    - id: storage
+      fixedIPs:
+      - subnet:
+          name: cluster-foo-storage-subnet-b
+spec:
+  providerSpec:
+    openstack:
+      flavor: flavor-A
+      rootVolume:
+        size: 1000
+        type: volume-type-A
+      ports:
+      - portTargetReference: control-plane
+        description: Control Plane
+        securityGroups:
+        - aaaa-bbbb-...
+        tags:
+        - control-plane
+      - portTargetReference: storage
+        description: Storage
+        securityGroups:
+        - cccc-dddd-...
+        tags:
+        - storage
